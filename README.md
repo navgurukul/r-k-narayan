@@ -1,2 +1,2 @@
-# r-k-narayan
+# R K Narayan
 Learn English Words
