@@ -32,30 +32,46 @@ def randomLine(file_object):
     file_object.close(  )
     return selected_line
 
-if random.random()>0.7:
-    line = randomLine(open("en-hi-dict-sen.txt")).split(',')
-    print "Word of the Day : ", line[1]
-    print "Meaning : ", line[0]
-    print "Sentence Usage : ", line[2].strip()
+def getDictionary(heading, text):
+    word_dict = {}
+    word_dict['heading'] = heading
+    word_dict['text'] = text
+    return word_dict
 
-elif random.random() > 0.4:
-    line = randomLine(open("tagged_words.txt")).split(", ")
-    print "Word of the Day : ", line[0]
-    print "Word Type : ", word_type(line[1].strip())
-    sentence = get_sentence(line[0])
-    if sentence:
-        s = sentence.strip().split('\t')
-        print "Sentence : ", s[0]
-        print "Translation : ", s[1]
+def getWordOfTheDay():
+    word_of_the_day = []
 
-else:
-    line = randomLine(open("en-hi-dict.txt")).split(",")
-    hword = line[0]
-    eword = line[2].strip()
-    sentence = get_sentence(eword)
-    print "Word of the Day : ", eword
-    print "Meaning : ", hword
-    if sentence:
-        s = sentence.strip().split('\t')
-        print "Sentence : ", s[0]
-        print "Translation : ", s[1]
+    if random.random()>0.7:
+        line = randomLine(open("en-hi-dict-sen.txt")).split(',')
+        word_of_the_day.append(getDictionary("Word of the Day", line[1]))
+        word_of_the_day.append(getDictionary("Meaning", line[0]))
+        word_of_the_day.append(getDictionary("Sentence Usage", line[2].strip()))
+
+    elif random.random() > 0.4:
+        line = randomLine(open("tagged_words.txt")).split(", ")
+        word_of_the_day.append(getDictionary("Word of the Day", line[0]))
+        word_of_the_day.append(getDictionary("Word Type", word_type(line[1].strip())))
+
+        sentence = get_sentence(line[0])
+        if sentence:
+            s = sentence.strip().split('\t')
+            word_of_the_day.append(getDictionary("Sentence", s[0]))
+            word_of_the_day.append(getDictionary("Translation", s[1]))
+
+    else:
+        line = randomLine(open("en-hi-dict.txt")).split(",")
+        hword = line[0]
+        eword = line[1].strip()
+        sentence = get_sentence(eword)
+        word_of_the_day.append(getDictionary("Word of the Day", eword))
+        word_of_the_day.append(getDictionary("Meaning", hword))
+
+        if sentence:
+            s = sentence.strip().split('\t')
+            word_of_the_day.append(getDictionary("Sentence", s[0]))
+            word_of_the_day.append(getDictionary("Translation", s[1]))
+    
+    return word_of_the_day
+
+# from pprint import pprint
+# pprint(getWordOfTheDay())
