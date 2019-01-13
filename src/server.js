@@ -1,7 +1,7 @@
 'use strict';
 
 const Hapi = require('hapi');
-import routes from './routes'
+const routes = require('./routes');
 
 const Inert = require('inert');
 const Vision = require('vision');

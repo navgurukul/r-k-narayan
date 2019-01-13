@@ -1,6 +1,7 @@
 const getInstance = require('./getInstance')
+const Boom = require('boom');
 
-const routes = [
+module.exports = [
 	{
 		method: 'GET',
 		path: '/get_word_of_the_day',
@@ -23,15 +24,13 @@ const routes = [
 				getInstance.getWordOfTheDay()
 					.then((result) => {
 						data['newWord'] = result
-						return resolve({ "status": "ok", "data": data })
+						return resolve(data)
 					})
 					.catch((error) => {
-						return resolve({ "status": "error", "message": error })
+						return Boom.forbidden(error)
 					})
 			}
 			return new Promise(pr)
 		}
 	}
 ]
-
-export default routes;
