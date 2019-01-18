@@ -10,7 +10,7 @@ module.exports = {
         client: 'mysql',
         connection: {
 
-            host: '192.168.33.10',
+            host: process.env.MYSQL_HOST || 'localhost', 
 
             user: process.env.MYSQL_USER,
             password: process.env.MYSQL_PASSWORD,
