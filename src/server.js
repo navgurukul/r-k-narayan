@@ -7,7 +7,6 @@ const Inert = require('inert');
 const Vision = require('vision');
 const HapiSwagger = require('hapi-swagger');
 
-
 const init = async () => {
     const server = new Hapi.Server({ port: 8080 });
     const swaggerOptions = {
