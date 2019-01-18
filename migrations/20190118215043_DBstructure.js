@@ -2,7 +2,7 @@
 exports.up = function (knex, Promise) {
 	return Promise.all([
 		knex.schema
-			.createTableIfNotExists('words', function (wordsTable) {
+			.createTableIfNotExists('vb_words', function (wordsTable) {
 				// primary Key
 				wordsTable.increments('id').primary()
 				// data
@@ -18,8 +18,8 @@ exports.up = function (knex, Promise) {
 				sentencesTable.increments('id').primary()
 
 				//data
-				wordsTable.string('sentence').notNullable()
-				wordsTable.string('h_translation').notNullable()
+				sentencesTable.string('sentence').notNullable()
+				sentencesTable.string('h_translation').notNullable()
 			})
 	]);
 
@@ -31,7 +31,7 @@ exports.down = function (knex, Promise) {
 		knex
 			.schema
 			.dropTableIfExists('sentences')
-			.dropTableIfExists('words')
+			.dropTableIfExists('vb_words')
 	]);
 
 };
