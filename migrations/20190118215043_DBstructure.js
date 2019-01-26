@@ -10,8 +10,6 @@ exports.up = function (knex, Promise) {
 				wordsTable.string('e_meaning', 50).notNullable()
 				wordsTable.string('h_meaning', 250).notNullable()
 
-				wordsTable.string('guid', 50).notNullable().unique()
-
 			})
 			.createTableIfNotExists('sentences', function (sentencesTable) {
 				// primary Key

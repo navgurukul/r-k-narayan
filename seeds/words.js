@@ -1,7 +1,7 @@
 
 exports.seed = function seed(knex, Promise) {
 
-  var tableName = 'words';
+  var tableName = 'vb_words';
 
   var rows = [
     {
