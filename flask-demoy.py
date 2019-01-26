@@ -18,4 +18,4 @@ def getNewWord():
 
 # debug is True so we don't have to start the server again after 
 # making any change
-app.run(debug=True) # start the server.
+app.run(debug=False,port=6000) # start the server.
