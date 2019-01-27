@@ -17,7 +17,7 @@ exports.up = function (knex, Promise) {
 
 				//data
 				sentencesTable.string('sentence').notNullable()
-				sentencesTable.string('h_translation').notNullable()
+				sentencesTable.string('h_translation').notNullable().defaultTo("")
 			})
 	]);
 

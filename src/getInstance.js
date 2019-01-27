@@ -1,10 +1,13 @@
 const fs = require('fs');
 const async = require('async');
-
+//[2,3,4,65,7,8]
 let randomChoice = (arr) => {
-    return arr[Math.floor(arr.length * Math.random())];
+    let randomNumber = arr.length * Math.random()
+    let final_number = Math.floor(randomNumber)
+    return arr[final_number];
 }
 
+//wt = advb,jj
 let word_type = (wt) => {
     wt = wt.toLowerCase()
     if (wt["vb"]) {
@@ -18,10 +21,15 @@ let word_type = (wt) => {
 }
 
 let get_sentence = (word) => {
+    //creating and returning a new promise which will be reject or resolve in sometime
     return new Promise((resolve, reject) => {
+        //yha pe hum hin.txt file ko read kar rhe hai fir uska data get krne k liye callback ka use kar rhe hai
         fs.readFile('hin.txt', function (err, data) {
+            //agr wo file read ni kar paya to err mei usk file na read krne ka reason ayega other wise err ki null hogi and same as for data
             if (err) throw err;
+            //data to pehle string mie convert kia and fir usko next line character(\n) se split isse hume data ek array mie milega
             let lines = data.toString().split("\n");
+            //lines mei wo hi element hone chahiye jisme humar word argument exist karta ho
             lines = lines.filter(x => x.includes(word));
             if (lines.length == 0) return ""
             let line = randomChoice(lines)
@@ -41,8 +49,8 @@ let randomLine = (file_name) => {
             return resolve(line)
         });
     })
-
 }
+
 
 let getDictionary = (heading, text) => {
     let word_dict = {}
