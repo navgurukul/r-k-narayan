@@ -18,9 +18,10 @@ exports.seed = function seed(knex, Promise) {
       rows.push({ "sentence": e_sentence, "h_translation": h_sentence })
     }
 
-    const promises = rows.map((row) => {
+    // let delPromise =  knex(tableName).del();
+    const promises = rows.map((row) => 
       knex(tableName).insert(row)
-    });
+    );
     return Promise.all(promises);
   });
 }
