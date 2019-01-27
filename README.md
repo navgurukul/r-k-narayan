@@ -9,4 +9,9 @@ Learn English Words
 # Documentation
 When the code is running, documentation is accessible at localhost:8080/documentation.
 
-
+# For adding seed data
+```bash
+node script.js
+```
+We didn't do this in seeds/ folder as the error handling is very poor when we
+run the seed scripts.
