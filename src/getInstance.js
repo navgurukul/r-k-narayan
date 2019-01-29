@@ -6,7 +6,7 @@ let randomChoice = (arr) => {
     let final_number = Math.floor(randomNumber)
     return arr[final_number];
 }
-
+exports.randomChoice = randomChoice
 //wt = advb,jj
 let word_type = (wt) => {
     wt = wt.toLowerCase()
