@@ -6,9 +6,10 @@ exports.up = function (knex, Promise) {
 				// primary Key
 				wordsTable.increments('id').primary()
 				// data
-				wordsTable.string('word', 250).notNullable()
-				wordsTable.string('e_meaning', 250).notNullable().defaultTo("")
+				wordsTable.string('word', 50).notNullable()
+				wordsTable.string('e_meaning', 50).notNullable().defaultTo("")
 				wordsTable.string('h_meaning', 250).notNullable().defaultTo("")
+				wordsTable.string('word_type', 5).defaultTo("")
 
 			})
 			.createTableIfNotExists('vb_sentences', function (sentencesTable) {
