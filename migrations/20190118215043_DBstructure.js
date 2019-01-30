@@ -6,8 +6,8 @@ exports.up = function (knex, Promise) {
 				// primary Key
 				wordsTable.increments('id').primary()
 				// data
-				wordsTable.string('word', 50).notNullable()
-				wordsTable.string('e_meaning', 50).notNullable()
+				wordsTable.string('word', 250).notNullable()
+				wordsTable.string('e_meaning', 250).notNullable()
 				wordsTable.string('h_meaning', 250).notNullable()
 
 			})

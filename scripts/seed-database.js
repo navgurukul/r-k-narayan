@@ -6,7 +6,7 @@ var knex = require('knex')(knexfile.development);
 const tableName = 'sentences';
 
 
-fs.readFile('hin.txt', function (err, data) {
+fs.readFile('../hin.txt', function (err, data) {
   if (err) throw err;
   let sentences = data.toString().split("\n")
   let rows = [];

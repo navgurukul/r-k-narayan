@@ -104,6 +104,9 @@ module.exports = [
 						.orderByRaw('rand()')
 						.limit(1)						
 							.then((result1) => {
+							if (result1.length !== 0) {
+								
+								
 								
 								let sentence = result1[0]
 								final_response.push({"heading":"Sentence","text": sentence['sentence']})
@@ -111,7 +114,9 @@ module.exports = [
 								let data={}
 								data["newWord"] = final_response
 								return resolve(h.response(data))
-
+							}else {
+								return "This word doesn't exist."
+							}
 							})
 							.catch((error) =>{
 								return reject(Boom.forbidden(error))

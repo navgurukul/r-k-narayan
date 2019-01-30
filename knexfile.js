@@ -17,6 +17,14 @@ module.exports = {
 
             database: process.env.MYSQL_DB_NAME,
             charset: 'utf8',
+            pool: { 
+                min: 1000,
+                max: 1000000 ,
+                acquireTimeout: 30*10000,
+            },
+
+
+
 
         }
 
