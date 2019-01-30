@@ -19,7 +19,7 @@ module.exports = {
             charset: 'utf8',
             pool: { 
                 min: 1000,
-                max: 1000000 ,
+                max: 100000 ,
                 acquireTimeout: 30*10000,
             },
 
