@@ -7,11 +7,11 @@ exports.up = function (knex, Promise) {
 				wordsTable.increments('id').primary()
 				// data
 				wordsTable.string('word', 250).notNullable()
-				wordsTable.string('e_meaning', 250).notNullable()
-				wordsTable.string('h_meaning', 250).notNullable()
+				wordsTable.string('e_meaning', 250).notNullable().defaultTo("")
+				wordsTable.string('h_meaning', 250).notNullable().defaultTo("")
 
 			})
-			.createTableIfNotExists('sentences', function (sentencesTable) {
+			.createTableIfNotExists('vb_sentences', function (sentencesTable) {
 				// primary Key
 				sentencesTable.increments('id').primary()
 
