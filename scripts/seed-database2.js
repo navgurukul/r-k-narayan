@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+const d_level = require('../utility/d_level')
 var knexfile = require('../knexfile.js');
 var knex = require('knex')(knexfile.development);
 
@@ -12,11 +12,13 @@ fs.readFile('en-hi-dict-sen.txt', function (err, data) {
   let rows = [];
   for (let i = 0; i < words.length; i++) {
     const element = words[i];
-    let e_h_sentences = element.split(',');
-    //console.log(e_h_sentences)
-    let h_word = e_h_sentences[0]
-    let e_word = e_h_sentences[1]
-    rows.push({ "word": e_word, "h_meaning": h_word })
+    let e_h_words = element.split(',');
+    //console.log e_h_words)
+    let h_word = e_h_words[0]
+    let e_word = e_h_words[1]
+    let level= d_level.calcDiff(e_word)
+
+    rows.push({ "word": e_word, "h_meaning": h_word ,"d_level" :level})
   }
 
 

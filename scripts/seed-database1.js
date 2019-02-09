@@ -1,5 +1,7 @@
 const fs = require('fs');
-require('dotenv').config()
+const d_level = require('../utility/d_level')
+
+// require('dotenv').config()
 
 
 var knexfile = require('../knexfile.js');
@@ -54,9 +56,11 @@ fs.readFile('./en-hi-dict.txt', function (err, data) {
     const element = words[i];
     let e_h_words = element.split(",");
     let e_word = e_h_words[1]
+    let level= d_level.calcDiff(e_word)
     let h_word = e_h_words[0]
-    rows.push({ "word": e_word,"e_meaning":e_word, "h_meaning": h_word })
+    rows.push({ "word": e_word, "h_meaning": h_word ,"d_level" :level})
     }
+
 
     callPromises(rows);
 

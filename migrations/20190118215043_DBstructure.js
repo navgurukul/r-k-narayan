@@ -10,6 +10,8 @@ exports.up = function (knex, Promise) {
 				wordsTable.string('e_meaning', 250).notNullable().defaultTo("")
 				wordsTable.string('h_meaning', 250).notNullable().defaultTo("")
 				wordsTable.string('word_type', 5).defaultTo("")
+				wordsTable.integer('d_level').unsigned().notNullable()
+
 
 			})
 			.createTableIfNotExists('vb_sentences', function (sentencesTable) {
@@ -19,6 +21,8 @@ exports.up = function (knex, Promise) {
 				//data
 				sentencesTable.string('sentence').notNullable()
 				sentencesTable.string('h_translation').notNullable().defaultTo("")
+				sentencesTable.integer('d_level').unsigned().notNullable()
+
 			})
 	]);
 
