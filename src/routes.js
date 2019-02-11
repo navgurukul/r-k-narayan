@@ -54,7 +54,7 @@ module.exports = [
 					.limit(1)
 					.then((result) => {
 						let word=result[0]
-						console.log(word)
+						// console.log(word)
 						final_response.push({"heading":"Word of the day","text":word['word']})
 						final_response.push({"heading":"Meaning","text":word['h_meaning']})
 
@@ -82,7 +82,7 @@ module.exports = [
 					})
 				}
 				else{
-					console.log(query.d_level)
+					// console.log(query.d_level)
 					knex("vb_words").select("word","e_meaning","h_meaning","d_level").
 					where({
 						"d_level":query.d_level
@@ -91,7 +91,7 @@ module.exports = [
 					.limit(1)
 					.then((result) => {
 						let word=result[0]
-						console.log(word)
+						// console.log(word)
 						final_response.push({"heading":"Word of the day","text":word['word']})
 						final_response.push({"heading":"Meaning","text":word['h_meaning']})
 
@@ -104,7 +104,7 @@ module.exports = [
 								.then((result1) => {
 									
 									let sentence = result1[0]
-									console.log(sentence)
+									// console.log(sentence)
 									final_response.push({"heading":"Sentence","text": sentence['sentence']})
 									final_response.push({"heading":"Translation","text": sentence['h_translation']})
 									let data={}
