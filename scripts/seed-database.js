@@ -1,12 +1,13 @@
 const fs = require('fs');
 const d_level = require('../utility/d_level')
+
 var knexfile = require('../knexfile.js');
 var knex = require('knex')(knexfile.development);
 
-const tableName = 'sentences';
+const tableName = 'vb_sentences';
 
 
-fs.readFile('../hin.txt', function (err, data) {
+fs.readFile('./hin.txt', function (err, data) {
   if (err) throw err;
   let sentences = data.toString().split("\n")
   let rows = [];
@@ -15,8 +16,9 @@ fs.readFile('../hin.txt', function (err, data) {
     const element = sentences[i];
     let e_h_sentences = element.split(/\t/g);
     let e_sentence = e_h_sentences[0]
+    let level=d_level.sentenceCalcDiff(e_sentence)
     let h_sentence = e_h_sentences[1]
-    rows.push({ "sentence": e_sentence, "h_translation": h_sentence })
+    rows.push({ "sentence": e_sentence, "h_translation": h_sentence, "d_level":level })
   }
 
   const promises = rows.map((row) => 

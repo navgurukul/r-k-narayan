@@ -44,35 +44,83 @@ module.exports = [
 		},
 		handler: (request, h) => {
 			let pr = (resolve, reject) => {
+				const query = request.query
 				let final_response=[]
+				if (query.d_level == undefined ) {
+					
+				
 				knex("vb_words").select("word","e_meaning","h_meaning")
 					.orderByRaw('rand()')
 					.limit(1)
 					.then((result) => {
 						let word=result[0]
+						console.log(word)
 						final_response.push({"heading":"Word of the day","text":word['word']})
 						final_response.push({"heading":"Meaning","text":word['h_meaning']})
-						knex("sentences").select("sentence","h_translation")
-						.where("sentence", 'like', '% '+ word['word']+' %')
-						.orderByRaw('rand()')
-						.limit(1)						
-							.then((result1) => {
-								
-								let sentence = result1[0]
-								final_response.push({"heading":"Sentence","text": sentence['sentence']})
-								final_response.push({"heading":"Translation","text": sentence['h_translation']})
-								let data={}
-								data["newWord"] = final_response
-								return resolve(h.response(data))
 
-							})
-							.catch((error) =>{
-								return reject(Boom.forbidden(error))
-							})
+							knex("vb_sentences").select("sentence","h_translation")
+							.where("sentence", 'like', '%'+ word['word']+'%')
+							.orderByRaw('rand()')
+							.limit(1)						
+								.then((result1) => {
+									
+									let sentence = result1[0]
+
+									final_response.push({"heading":"Sentence","text": sentence['sentence']})
+									final_response.push({"heading":"Translation","text": sentence['h_translation']})
+									let data={}
+									data["newWord"] = final_response
+									return resolve(h.response(data))
+
+								})
+								.catch((error) =>{
+									return reject(Boom.forbidden(error))
+								})
 					})
 					.catch((error) => {
 						return reject(Boom.forbidden(error))
 					})
+				}
+				else{
+					console.log(query.d_level)
+					knex("vb_words").select("word","e_meaning","h_meaning","d_level").
+					where({
+						"d_level":query.d_level
+					})
+					.orderByRaw('rand()')
+					.limit(1)
+					.then((result) => {
+						let word=result[0]
+						console.log(word)
+						final_response.push({"heading":"Word of the day","text":word['word']})
+						final_response.push({"heading":"Meaning","text":word['h_meaning']})
+
+							knex("vb_sentences").select("sentence","h_translation","d_level")
+							.where({
+								"d_level":query.d_level
+							}).where("sentence", 'like', '%'+ word['word']+'%')
+							.orderByRaw('rand()')
+							.limit(1)						
+								.then((result1) => {
+									
+									let sentence = result1[0]
+									console.log(sentence)
+									final_response.push({"heading":"Sentence","text": sentence['sentence']})
+									final_response.push({"heading":"Translation","text": sentence['h_translation']})
+									let data={}
+									data["newWord"] = final_response
+									return resolve(h.response(data))
+
+								})
+								.catch((error) =>{
+									return reject(Boom.forbidden(error))
+								})
+					})
+					.catch((error) => {
+						return reject(Boom.forbidden(error))
+					})
+
+				}
 					
 			}
 			return new Promise(pr)
@@ -99,7 +147,7 @@ module.exports = [
 					let word=result[0]
 						final_response.push({"heading":"Word of the day","text":word['word']})
 						final_response.push({"heading":"Meaning","text":word['h_meaning']})
-						knex("sentences").select("sentence","h_translation")
+						knex("vb_sentences").select("sentence","h_translation")
 						.where("sentence", 'like', '% '+ word['word']+' %')
 						.orderByRaw('rand()')
 						.limit(1)						
@@ -144,7 +192,7 @@ module.exports = [
 				const query=request.query
 				let final_response=[]
 				//console.log(query.sentence)
-				knex("sentences").select("sentence","h_translation")
+				knex("vb_sentences").select("sentence","h_translation")
 				.where('sentence','like','%'+query.sentence+'%')
 				.orderByRaw('rand()')
 				.limit(1)
@@ -186,7 +234,7 @@ module.exports = [
 		
 				let final_response=[]
 				//console.log(query.sentence)
-				knex("sentences").insert({
+				knex("vb_sentences").insert({
 					sentence: request.payload.sentence,
 					h_translation: request.payload.h_translation
 				})

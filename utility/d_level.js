@@ -4,7 +4,7 @@ let isVowel = (ch) => {
     ch == 'u') 
 }
 
-exports.calcDiff = (str) => {
+let calcDiff = (str) => {
     str = str.toLowerCase();
     var count_conso = 0
     for (let index = 0; index < str.length; index++) {
@@ -30,5 +30,41 @@ exports.calcDiff = (str) => {
         return 5        
     }
 }
+exports.calcDiff = calcDiff
+
+
+let sentenceCalcDiff = (str) => {
+    words_list=str.split(" ")
+    let words =[]
+    for (let index = 0; index <words_list.length; index++) {
+        const element =words_list[index];
+        if (element.length > 3) {
+            words.push(element)
+            
+        }
+        
+    }
+    if (words.length<=3) {
+        return 1 
+    }
+    else if (words.length==4){
+        return 2
+    }
+    else if (words.length==5){
+        return 3
+    }
+    else if (words.length==6){
+        return 4
+    }
+    else if (words.length>=7){        
+        return 5
+    }
+}
+exports.sentenceCalcDiff = sentenceCalcDiff
+
+
+
+
+
 
 
