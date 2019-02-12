@@ -5,9 +5,9 @@ const knex= require('knex')({
     debug: false,
     connection: {
         host: 'localhost',
-        user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PASSWORD,
-        database: process.env.MYSQL_DB_NAME,
+        user: process.env.RKN_MYSQL_USER,
+        password: process.env.RKN_MYSQL_PASSWORD,
+        database: process.env.RKN_MYSQL_DB_NAME,
         charset: 'utf8',
         pool: { 
             min: 1000, 
