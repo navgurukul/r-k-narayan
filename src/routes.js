@@ -13,14 +13,6 @@ module.exports = [
 		},
 		handler: (request, h) => {
 			let pr = (resolve, reject) => {
-				// # level = 0 don't use level
-				// # level between 1 to 5
-				// # return a word with larger length
-				// # 1 - upto 4 characters
-				// # 2 - upto 5 chars
-				// # 3 - upto 7 chars
-				// # 4 - upto 8 chars(higher probability)
-				// # 5 - all
 				let data = {}
 				getInstance.getWordOfTheDay()
 					.then((result) => {
@@ -49,7 +41,8 @@ module.exports = [
 				if (query.d_level == undefined ) {
 					
 				
-				knex("vb_words").select("word","e_meaning","h_meaning")
+					knex("vb_words").select("word","h_meaning")
+					.whereNotIn("h_meaning" , "")
 					.orderByRaw('rand()')
 					.limit(1)
 					.then((result) => {
@@ -74,7 +67,11 @@ module.exports = [
 
 								})
 								.catch((error) =>{
-									return reject(Boom.forbidden(error))
+									let data = {}
+									data["newWord"] = final_response
+									return resolve(h.response(data))
+
+									// return reject(Boom.forbidden(error))
 								})
 					})
 					.catch((error) => {
@@ -83,8 +80,9 @@ module.exports = [
 				}
 				else{
 					// console.log(query.d_level)
-					knex("vb_words").select("word","e_meaning","h_meaning","d_level").
-					where({
+					knex("vb_words").select("word","e_meaning","h_meaning","d_level")
+					.whereNotIn("h_meaning" , "")
+					.where({
 						"d_level":query.d_level
 					})
 					.orderByRaw('rand()')
@@ -110,10 +108,13 @@ module.exports = [
 									let data={}
 									data["newWord"] = final_response
 									return resolve(h.response(data))
-
 								})
 								.catch((error) =>{
-									return reject(Boom.forbidden(error))
+									let data = {}
+									data["newWord"] = final_response
+									return resolve(h.response(data))
+
+									// return reject(Boom.forbidden(error))
 								})
 					})
 					.catch((error) => {
@@ -140,6 +141,7 @@ module.exports = [
 				const query = request.query
 				let final_response = []
 				knex('vb_words').select('word','e_meaning','h_meaning')
+				.whereNotIn({"h_meaning" : ""})
 				 .where({
 				 	word:query.word
 				 })
@@ -167,7 +169,10 @@ module.exports = [
 							}
 							})
 							.catch((error) =>{
-								return reject(Boom.forbidden(error))
+								let data = {}
+								data["newWord"] = final_response
+								return resolve(h.response(data))
+								// return reject(Boom.forbidden(error))
 							})
 				})
 				.catch((error) => {
@@ -232,7 +237,6 @@ module.exports = [
 		handler: (request, h) => {
 			let pr = (resolve, reject) => {
 		
-				let final_response=[]
 				//console.log(query.sentence)
 				knex("vb_sentences").insert({
 					sentence: request.payload.sentence,
