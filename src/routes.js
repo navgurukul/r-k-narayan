@@ -146,9 +146,10 @@ module.exports = [
 				 	word:query.word
 				 })
 				.then((result) => {
+					// console.log(result)
 					if (result.length !== 0) {
 						let word=result[0]
-						final_response.push({"heading":"Word of the day","text":word['word']})
+						final_response.push({"heading":"Word","text":word['word']})
 						final_response.push({"heading":"Meaning","text":word['h_meaning']})
 						knex("vb_sentences").select("sentence","h_translation")
 						.where("sentence", 'like', '% '+ word['word']+' %')
@@ -156,9 +157,9 @@ module.exports = [
 						.limit(1)						
 							.then((result1) => {
 							if (result1.length !== 0) {
-								
-								
-								
+
+
+
 								let sentence = result1[0]
 								final_response.push({"heading":"Sentence","text": sentence['sentence']})
 								final_response.push({"heading":"Translation","text": sentence['h_translation']})
@@ -166,14 +167,22 @@ module.exports = [
 								data["newWord"] = final_response
 								return resolve(h.response(data))
 							}else {
-								return resolve("This word doesn't exist.")
+								let data={}
+								data["newWord"] = final_response
+								return resolve(h.response(data))
 							}
 							})
 							.catch((error) =>{
 								return reject(Boom.forbidden(error))
 							})
 						}else {
-							return resolve("This word doesn't exist.")
+							final_response.push({"heading":"Word","text": query.word})
+							final_response.push({"heading":"Message","text": "This word doesn't exist."})
+							let data={}
+							data["newWord"] = final_response
+							return resolve(h.response(data))
+
+							// return resolve("This word doesn't exist.")
 						}
 
 				})
@@ -214,7 +223,12 @@ module.exports = [
 					return resolve(h.response(final_response))
 				}
 				else {
-					return resolve("This sentence doesn't exist.")
+						final_response.push({"heading":"Sentence","text": query.sentence})
+						final_response.push({"heading":"Message","text": "This sentence doesn't exist."})
+						let data={}
+						data["newWord"] = final_response
+						return resolve(h.response(data))
+					// return resolve("This sentence doesn't exist.")
 				}
 
 				})
