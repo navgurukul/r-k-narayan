@@ -141,7 +141,7 @@ module.exports = [
 				const query = request.query
 				let final_response = []
 				knex('vb_words').select('word','e_meaning','h_meaning')
-				.whereNotIn({"h_meaning" : ""})
+				.whereNotIn("h_meaning" , "")
 				 .where({
 				 	word:query.word
 				 })
