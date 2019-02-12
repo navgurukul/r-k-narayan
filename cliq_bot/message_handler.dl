@@ -1,0 +1,188 @@
+response = Map();
+if(message.containsIgnoreCase("hard"))
+{
+  query_map = Map();
+  criteria_string = "username==" + user.get("email");
+  query_map.put("criteria",criteria_string);
+  response_map = zoho.cliq.getRecords("english",query_map);
+  if(response_map.get("status").equalsIgnoreCase("SUCCESS") &&
+response_map.get("list").size() == 0)
+  {
+    info "text";
+    values_map = Map();
+    values_map.put("username",user.get("email"));
+    values_map.put("level",2);
+    response_map = zoho.cliq.createRecord("english",values_map);
+    text = "Your level has been upgraded to : 2";
+  }
+  else
+  {
+    level = response_map.get('list').get(0).get("level").toLong() + 1;
+    if(level == 6)
+    {
+      text = "You are already at the highest level! :wink:";
+    }
+    else
+    {
+      values_map = Map();
+      values_map.put("level",level);
+      record_id = response_map.get("list").get(0).get("id");
+      response_map = zoho.cliq.updateRecord("english",record_id,values_map);
+      text = "Your level has been upgraded to : " + level;
+    }
+  }
+}
+else if(message.containsIgnoreCase("easy"))
+{
+  query_map = Map();
+  criteria_string = "username==" + user.get("email");
+  query_map.put("criteria",criteria_string);
+  response_map = zoho.cliq.getRecords("english",query_map);
+  if(response_map.get("status").equalsIgnoreCase("SUCCESS") &&
+response_map.get("list").size() == 0)
+  {
+    text = "You are already at the basic level! :wink:";
+  }
+  else
+  {
+    level = response_map.get('list').get(0).get("level").toLong() - 1;
+    if(level == 0)
+    {
+      text = "You are already at the basic level! :wink:";
+    }
+    else
+    {
+      values_map = Map();
+      values_map.put("level",level);
+      record_id = response_map.get("list").get(0).get("id");
+      response_map = zoho.cliq.updateRecord("english",record_id,values_map);
+      text = "Your level has been upgraded to : " + level;
+    }
+  }
+}
+else if(message.containsIgnoreCase("more"))
+{
+  query_map = Map();
+  criteria_string = "username==" + user.get("email");
+  query_map.put("criteria",criteria_string);
+  response_map = zoho.cliq.getRecords("english",query_map);
+  if(response_map.get("status").equalsIgnoreCase("SUCCESS") &&
+response_map.get("list").size() == 0)
+  {
+    info "text";
+    values_map = Map();
+    values_map.put("username",user.get("email"));
+    values_map.put("frequency",2);
+    response_map = zoho.cliq.createRecord("english",values_map);
+    text = "Ab aapko roz "+2+" words milenge. Good luck :smile:";
+  }
+  else
+  {
+    frequency = response_map.get('list').get(0).get("frequency").toLong() + 1;
+    if(frequency == 11)
+    {
+      text = "10 se jyada words nahi milenge roz! :wink:";
+    }
+    else
+    {
+      values_map = Map();
+      values_map.put("frequency",frequency);
+      record_id = response_map.get("list").get(0).get("id");
+      response_map = zoho.cliq.updateRecord("english",record_id,values_map);
+      text = "Ab aapko roz "+frequency+" words milenge. Good luck :smile:
+`less` kar kar aap rozana kam words mangwa sakte ho.";
+    }
+  }
+}
+else if(message.containsIgnoreCase("less"))
+{
+  query_map = Map();
+  criteria_string = "username==" + user.get("email");
+  query_map.put("criteria",criteria_string);
+  response_map = zoho.cliq.getRecords("english",query_map);
+  if(response_map.get("status").equalsIgnoreCase("SUCCESS") &&
+response_map.get("list").size() == 0)
+  {
+    frequency = 0;
+    text = "Chalo! No words for you now. `more` kar kar aap apne liye words
+mangwa sakte hai.";
+  }
+  else
+  {
+    frequency = response_map.get('list').get(0).get("frequency").toLong() - 1;
+    if(frequency < 1)
+    {
+      frequency = 0;
+      text = "Chalo! No words for you now. `more` kar kar aap apne liye words
+mangwa sakte hai.";
+    }
+    else
+    {
+      text = "Ab aapko roz "+frequency+" words milenge. Good luck :smile:
+`more` command se aap rozana jyada words mangwa sakte ho.";
+    }
+  }
+  values_map = Map();
+  values_map.put("frequency",frequency);
+  record_id = response_map.get("list").get(0).get("id");
+  response_map = zoho.cliq.updateRecord("english",record_id,values_map);
+}
+else if(message.containsIgnoreCase("HI") || message.containsIgnoreCase("HEY"))
+{
+  text = "Hi! How you doin'? :wink:";
+  response.put("suggestions",{"list":{{"text":"I am
+great!"},{"text":"Meh!"},{"text":"New Word"}}});
+}
+else if(message.equals("I am great!"))
+{
+  text = "Glad to hear that! :smile:";
+}
+else if(message.equals("Meh!"))
+{
+  text = "Oops! Don't you worry. Your day is definitely going to get better.
+:grinning:";
+}
+else if(message.containsIgnoreCase("HELP"))
+{
+  text = "Enter `any text` to get a new word!\n`harder` to increase difficulty
+level\n`easy` to decrease the difficulty level.\n`more` for more words per
+day\n`less` for less words per day";
+}
+else
+{
+  query_map = Map();
+  criteria_string = "username==" + user.get("email");
+  query_map.put("criteria",criteria_string);
+  response_map = zoho.cliq.getRecords("english",query_map);
+  if(response_map.get("status").equalsIgnoreCase("SUCCESS") &&
+response_map.get("list").size() == 0)
+  {
+    levelQuery = "";
+  }
+  else
+  {
+    level = response_map.get('list').get(0).get("level");
+    levelQuery = "?level=" + level;
+  }
+  lresponse = invokeurl
+  [
+    url :"http://cliq.navgurukul.org/get_word_of_the_day" + levelQuery
+    type :GET
+  ];
+  new_word = lresponse.get("newWord").toList();
+  text2 = Map();
+  message = "";
+  rows = List();
+  for each  item in new_word.subList(1,new_word.size())
+  {
+    row = Map();
+    row.put(item.get("heading"),item.get("text"));
+    rows.add(row);
+  }
+  text2.put("text","`" + new_word.get(0).get("text") + "`");
+  text2.put("card",{"title":new_word.get(0).get("heading"),"theme":"modern-inline"});
+  text2.put("slides",{{"type":"label","title":"","data":rows}});
+  return text2;
+}
+response.put("text",text);
+return response;

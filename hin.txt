@@ -183,7 +183,7 @@ We'll call you.	हम आपको बुलाएँगे।
 Where were you?	तुम कहाँ थे?
 Where were you?	आप कहाँ थे?
 You have to go.	तुम्हें जाना होगा।
-You look tired.	तुम थके-हारे से लगते हो।
+You look tired.	तुम थके-हारे से लगते हो|
 You're kidding!	मज़ाक कर रहे हो!
 A man must work.	एक आदमी के लिए काम करना ज़रूरी है।
 Are you at home?	तुम घर पे हो क्या?
