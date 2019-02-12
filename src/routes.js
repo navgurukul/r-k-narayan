@@ -146,7 +146,8 @@ module.exports = [
 				 	word:query.word
 				 })
 				.then((result) => {
-					let word=result[0]
+					if (result.length !== 0) {
+						let word=result[0]
 						final_response.push({"heading":"Word of the day","text":word['word']})
 						final_response.push({"heading":"Meaning","text":word['h_meaning']})
 						knex("vb_sentences").select("sentence","h_translation")
@@ -165,15 +166,16 @@ module.exports = [
 								data["newWord"] = final_response
 								return resolve(h.response(data))
 							}else {
-								return "This word doesn't exist."
+								return resolve("This word doesn't exist.")
 							}
 							})
 							.catch((error) =>{
-								let data = {}
-								data["newWord"] = final_response
-								return resolve(h.response(data))
-								// return reject(Boom.forbidden(error))
+								return reject(Boom.forbidden(error))
 							})
+						}else {
+							return resolve("This word doesn't exist.")
+						}
+
 				})
 				.catch((error) => {
 					return reject(Boom.forbidden(error))
@@ -217,6 +219,7 @@ module.exports = [
 
 				})
 				.catch((error) =>{
+
 					return reject(Boom.forbidden(error))
 				})
 					
