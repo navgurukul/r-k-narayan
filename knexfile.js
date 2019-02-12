@@ -10,11 +10,11 @@ module.exports = {
         client: 'mysql',
         connection: {
 
-            host: process.env.MYSQL_HOST || 'localhost',
-
+            host: process.env.RKN_MYSQL_HOST || 'localhost',
             user: process.env.RKN_MYSQL_USER,
             password: process.env.RKN_MYSQL_PASSWORD,
             database: process.env.RKN_MYSQL_DB_NAME,
+            
             charset: 'utf8',
             pool: { 
                 min: 1000,
