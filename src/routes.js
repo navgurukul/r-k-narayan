@@ -146,20 +146,16 @@ module.exports = [
 				 	word:query.word
 				 })
 				.then((result) => {
-					// console.log(result)
 					if (result.length !== 0) {
 						let word=result[0]
 						final_response.push({"heading":"Word","text":word['word']})
 						final_response.push({"heading":"Meaning","text":word['h_meaning']})
 						knex("vb_sentences").select("sentence","h_translation")
-						.where("sentence", 'like', '% '+ word['word']+' %')
+						.where("sentence", 'like', '%'+ word['word']+'%')
 						.orderByRaw('rand()')
 						.limit(1)						
 							.then((result1) => {
 							if (result1.length !== 0) {
-
-
-
 								let sentence = result1[0]
 								final_response.push({"heading":"Sentence","text": sentence['sentence']})
 								final_response.push({"heading":"Translation","text": sentence['h_translation']})
@@ -272,8 +268,55 @@ module.exports = [
 					
 					
 			}
+
+			return new Promise(pr)
+		}
+	},
+	{
+		method: 'PUT',
+		path: '/updateFrequency',
+		config: {
+			description: 'post word of the day',
+			notes: 'post word of the day',
+			tags: ['api']
+		},
+		handler: (request, h) => {
+			let pr = (resolve, reject) => {
+		
+				//console.log(query.sentence)
+				knex("vb_user_preferences").insert({
+					email_id: request.query.email,
+					frequency: request.query.frequency,
+					d_level:request.query.level
+				})
+				
+				.then((result1) => {
+
+					return resolve("Successfully Posted.")
+				})
+				.catch((error) =>{
+					knex("vb_user_preferences").where({
+
+						"email_id" : request.query.email
+					}).update({
+						email_id: request.query.email,
+						frequency: request.query.frequency,
+						d_level:request.query.level
+					})
+					.then((result) => {
+						return resolve("successfully Posted.")
+					})
+					.catch((error)=> {
+					return reject(Boom.forbidden(error))
+					})
+				})
+					
+					
+			}
 			return new Promise(pr)
 		}
 	}
 	
 ]
+
+	

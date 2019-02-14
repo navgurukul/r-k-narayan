@@ -24,6 +24,7 @@ exports.up = function (knex, Promise) {
 				sentencesTable.integer('d_level').unsigned().notNullable()
 
 			})
+
 	]);
 
 };
@@ -33,7 +34,7 @@ exports.down = function (knex, Promise) {
 		//remember to drop a refrencing table first
 		knex
 			.schema
-			.dropTableIfExists('sentences')
+			.dropTableIfExists('vb_sentences')
 			.dropTableIfExists('vb_words')
 	]);
 
