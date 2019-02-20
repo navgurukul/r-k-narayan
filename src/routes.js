@@ -283,7 +283,6 @@ module.exports = [
 		handler: (request, h) => {
 			let pr = (resolve, reject) => {
 		
-				//console.log(query.sentence)
 				knex("vb_user_preferences").insert({
 					email_id: request.query.email,
 					frequency: request.query.frequency,
